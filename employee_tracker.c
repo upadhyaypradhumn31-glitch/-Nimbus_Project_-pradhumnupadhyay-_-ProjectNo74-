@@ -186,7 +186,7 @@ int main() {
                 printf("\n--> Display Employees selected\n");
                 break;
             case 6:
-                printf("\n--> Save Data selected\n");
+                saveToFile(employees, count);
                 break;
             case 7:
                 printf("\n--> Load Data selected\n");
