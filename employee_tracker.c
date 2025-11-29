@@ -131,6 +131,28 @@ void calculateDeductions(Employee *employees, int count) {
         }
     }
 }
+// Function to save data to file
+void saveToFile(Employee *employees, int count) {
+    FILE *file = fopen("employee_data.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file for writing!\n");
+        return;
+    }
+    
+    // Save each employee
+    for (int i = 0; i < count; i++) {
+        fprintf(file, "%d,%s,%d,%d,%.2f,%.2f\n",
+                employees[i].emp_id,
+                employees[i].name,
+                employees[i].days_present,
+                employees[i].leaves_taken,
+                employees[i].salary,
+                employees[i].deduction);
+    }
+    
+    fclose(file);
+    printf("Data saved successfully to employee_data.txt (%d employees)\n", count);
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
