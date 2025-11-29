@@ -109,6 +109,28 @@ void displayAllEmployees(Employee *employees, int count) {
     printf("===============================================\n");
     printf("Total Employees: %d\n", count);
 }
+// Function to calculate salary deductions
+void calculateDeductions(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found! Please add employees first.\n");
+        return;
+    }
+    
+    printf("\n===============================================\n");
+    printf("        SALARY DEDUCTIONS REPORT\n");
+    printf("===============================================\n");
+    
+    for (int i = 0; i < count; i++) {
+        if (employees[i].leaves_taken > 0) {
+            float deduction = employees[i].leaves_taken * 2000.0;
+            printf("Employee: %s (ID: %d)\n", employees[i].name, employees[i].emp_id);
+            printf("Leaves Taken: %d\n", employees[i].leaves_taken);
+            printf("Salary Deduction: ₹%.2f\n", deduction);
+            printf("Net Salary: ₹%.2f\n", employees[i].salary - deduction);
+            printf("--------------------------------------------------\n");
+        }
+    }
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
