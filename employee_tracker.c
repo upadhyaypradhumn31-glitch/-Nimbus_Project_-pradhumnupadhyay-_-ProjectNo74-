@@ -153,9 +153,9 @@ int main() {
                 break;
             case 2:
                 printf("\n--> Mark Attendance selected\n");
-                break;
+                break; 
             case 3:
-                printf("\n--> Calculate Deductions selected\n");
+                calculateDeductions(employees, count);
                 break;
             case 4:
                 printf("\n--> Generate Reports selected\n");
