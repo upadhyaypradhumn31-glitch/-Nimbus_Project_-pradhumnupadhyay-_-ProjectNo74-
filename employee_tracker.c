@@ -85,6 +85,30 @@ void addEmployee(Employee *employees, int *count) {
     printf("\nEmployee added successfully!\n");
     printf("ID: %d, Name: %s, Salary: ₹%.2f\n", emp_id, name, salary);
 }
+// Function to display all employees
+void displayAllEmployees(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found! Please add employees first.\n");
+        return;
+    }
+    
+    printf("\n===============================================\n");
+    printf("           ALL EMPLOYEES LIST\n");
+    printf("===============================================\n");
+    printf("%-10s %-20s %-12s %-12s\n", 
+           "EMP ID", "NAME", "SALARY", "PRESENT");
+    printf("--------------------------------------------------\n");
+    
+    for (int i = 0; i < count; i++) {
+        printf("%-10d %-20s ₹%-11.2f %-12d\n", 
+               employees[i].emp_id, 
+               employees[i].name, 
+               employees[i].salary,
+               employees[i].days_present);
+    }
+    printf("===============================================\n");
+    printf("Total Employees: %d\n", count);
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
