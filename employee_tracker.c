@@ -101,8 +101,9 @@ int main() {
         scanf("%d", &choice);
         
         switch(choice) {
-            case 1:
-                printf("\n--> Add Employee selected\n");
+           switch(choice) {
+           case 1:
+                addEmployee(employees, &count);
                 break;
             case 2:
                 printf("\n--> Mark Attendance selected\n");
