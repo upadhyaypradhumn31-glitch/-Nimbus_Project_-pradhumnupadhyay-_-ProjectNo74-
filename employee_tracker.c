@@ -30,7 +30,61 @@ void displayMenu() {
     printf("\n8. Exit");
     printf("\n--------------------------------------------------");
 }
-
+// Function to find employee by ID
+int findEmployee(Employee *employees, int count, int emp_id) {
+    for (int i = 0; i < count; i++) {
+        if (employees[i].emp_id == emp_id) {
+            return i;
+        }
+    }
+    return -1;
+}
+// Function to initialize employee
+void initializeEmployee(Employee *emp, int emp_id, char *name, float salary) {
+    emp->emp_id = emp_id;
+    strcpy(emp->name, name);
+    emp->days_present = 0;
+    emp->leaves_taken = 0;
+    emp->salary = salary;
+    emp->deduction = 0.0;
+}
+// Function to add new employee
+void addEmployee(Employee *employees, int *count) {
+    if (*count >= MAX_EMPLOYEES) {
+        printf("Maximum employee limit reached!\n");
+        return;
+    }
+    
+    Employee *newEmp = &employees[*count];
+    int emp_id;
+    char name[50];
+    float salary;
+    
+    printf("\n--- Add New Employee ---\n");
+    
+    printf("Enter Employee ID: ");
+    scanf("%d", &emp_id);
+    
+    // Check if employee ID already exists
+    if (findEmployee(employees, *count, emp_id) != -1) {
+        printf("Error: Employee ID %d already exists!\n", emp_id);
+        return;
+    }
+    
+    printf("Enter Employee Name: ");
+    getchar(); // Clear input buffer
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = 0; // Remove newline
+    
+    printf("Enter Monthly Salary: ");
+    scanf("%f", &salary);
+    
+    initializeEmployee(newEmp, emp_id, name, salary);
+    (*count)++;
+    
+    printf("\nEmployee added successfully!\n");
+    printf("ID: %d, Name: %s, Salary: ₹%.2f\n", emp_id, name, salary);
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
