@@ -153,6 +153,29 @@ void saveToFile(Employee *employees, int count) {
     fclose(file);
     printf("Data saved successfully to employee_data.txt (%d employees)\n", count);
 }
+// Function to load data from file
+void loadFromFile(Employee *employees, int *count) {
+    FILE *file = fopen("employee_data.txt", "r");
+    if (file == NULL) {
+        printf("No previous data found.\n");
+        return;
+    }
+    
+    *count = 0;
+    while (fscanf(file, "%d,%49[^,],%d,%d,%f,%f",
+                  &employees[*count].emp_id,
+                  employees[*count].name,
+                  &employees[*count].days_present,
+                  &employees[*count].leaves_taken,
+                  &employees[*count].salary,
+                  &employees[*count].deduction) == 6) {
+        (*count)++;
+        if (*count >= MAX_EMPLOYEES) break;
+    }
+    
+    fclose(file);
+    printf("Data loaded successfully from employee_data.txt (%d employees)\n", *count);
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
