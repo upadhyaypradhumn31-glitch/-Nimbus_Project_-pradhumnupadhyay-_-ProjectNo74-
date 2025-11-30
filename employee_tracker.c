@@ -4,6 +4,7 @@
 
 #define MAX_EMPLOYEES 100
 #define WORKING_DAYS 22
+#define DAILY_SALARY_RATE 2000.0
 
 // Employee structure
 typedef struct {
@@ -30,6 +31,7 @@ void displayMenu() {
     printf("\n8. Exit");
     printf("\n--------------------------------------------------");
 }
+
 // Function to find employee by ID
 int findEmployee(Employee *employees, int count, int emp_id) {
     for (int i = 0; i < count; i++) {
@@ -39,6 +41,7 @@ int findEmployee(Employee *employees, int count, int emp_id) {
     }
     return -1;
 }
+
 // Function to initialize employee
 void initializeEmployee(Employee *emp, int emp_id, char *name, float salary) {
     emp->emp_id = emp_id;
@@ -48,6 +51,7 @@ void initializeEmployee(Employee *emp, int emp_id, char *name, float salary) {
     emp->salary = salary;
     emp->deduction = 0.0;
 }
+
 // Function to add new employee
 void addEmployee(Employee *employees, int *count) {
     if (*count >= MAX_EMPLOYEES) {
@@ -85,6 +89,60 @@ void addEmployee(Employee *employees, int *count) {
     printf("\nEmployee added successfully!\n");
     printf("ID: %d, Name: %s, Salary: ₹%.2f\n", emp_id, name, salary);
 }
+
+// Function to mark attendance
+void markAttendance(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found! Please add employees first.\n");
+        return;
+    }
+    
+    int emp_id, days_present;
+    
+    printf("\n--- Mark Attendance ---\n");
+    printf("Enter Employee ID: ");
+    scanf("%d", &emp_id);
+    
+    for (int i = 0; i < count; i++) {
+        if (employees[i].emp_id == emp_id) {
+            printf("Employee: %s\n", employees[i].name);
+            printf("Enter days present (0-%d): ", WORKING_DAYS);
+            scanf("%d", &days_present);
+            
+            employees[i].days_present = days_present;
+            employees[i].leaves_taken = WORKING_DAYS - days_present;
+            
+            printf("Attendance marked successfully!\n");
+            return;
+        }
+    }
+    
+    printf("Employee not found!\n");
+}
+
+// Function to calculate salary deductions
+void calculateDeductions(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found! Please add employees first.\n");
+        return;
+    }
+    
+    printf("\n===============================================\n");
+    printf("        SALARY DEDUCTIONS REPORT\n");
+    printf("===============================================\n");
+    
+    for (int i = 0; i < count; i++) {
+        if (employees[i].leaves_taken > 0) {
+            float deduction = employees[i].leaves_taken * DAILY_SALARY_RATE;
+            printf("Employee: %s (ID: %d)\n", employees[i].name, employees[i].emp_id);
+            printf("Leaves Taken: %d\n", employees[i].leaves_taken);
+            printf("Salary Deduction: ₹%.2f\n", deduction);
+            printf("Net Salary: ₹%.2f\n", employees[i].salary - deduction);
+            printf("--------------------------------------------------\n");
+        }
+    }
+}
+
 // Function to display all employees
 void displayAllEmployees(Employee *employees, int count) {
     if (count == 0) {
@@ -109,28 +167,7 @@ void displayAllEmployees(Employee *employees, int count) {
     printf("===============================================\n");
     printf("Total Employees: %d\n", count);
 }
-// Function to calculate salary deductions
-void calculateDeductions(Employee *employees, int count) {
-    if (count == 0) {
-        printf("No employees found! Please add employees first.\n");
-        return;
-    }
-    
-    printf("\n===============================================\n");
-    printf("        SALARY DEDUCTIONS REPORT\n");
-    printf("===============================================\n");
-    
-    for (int i = 0; i < count; i++) {
-        if (employees[i].leaves_taken > 0) {
-            float deduction = employees[i].leaves_taken * 2000.0;
-            printf("Employee: %s (ID: %d)\n", employees[i].name, employees[i].emp_id);
-            printf("Leaves Taken: %d\n", employees[i].leaves_taken);
-            printf("Salary Deduction: ₹%.2f\n", deduction);
-            printf("Net Salary: ₹%.2f\n", employees[i].salary - deduction);
-            printf("--------------------------------------------------\n");
-        }
-    }
-}
+
 // Function to save data to file
 void saveToFile(Employee *employees, int count) {
     FILE *file = fopen("employee_data.txt", "w");
@@ -153,6 +190,7 @@ void saveToFile(Employee *employees, int count) {
     fclose(file);
     printf("Data saved successfully to employee_data.txt (%d employees)\n", count);
 }
+
 // Function to load data from file
 void loadFromFile(Employee *employees, int *count) {
     FILE *file = fopen("employee_data.txt", "r");
@@ -176,6 +214,7 @@ void loadFromFile(Employee *employees, int *count) {
     fclose(file);
     printf("Data loaded successfully from employee_data.txt (%d employees)\n", *count);
 }
+
 // Function to generate reports
 void generateReports(Employee *employees, int count) {
     if (count == 0) {
@@ -210,7 +249,7 @@ void generateReports(Employee *employees, int count) {
         case 2:
             printf("\n--- SALARY REPORT ---\n");
             for (int i = 0; i < count; i++) {
-                float deduction = employees[i].leaves_taken * 2000.0;
+                float deduction = employees[i].leaves_taken * DAILY_SALARY_RATE;
                 printf("%s: Basic ₹%.2f - Deduction ₹%.2f = Net ₹%.2f\n",
                        employees[i].name,
                        employees[i].salary,
@@ -234,6 +273,7 @@ void generateReports(Employee *employees, int count) {
             printf("Invalid report choice!\n");
     }
 }
+
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
@@ -252,13 +292,12 @@ int main() {
         scanf("%d", &choice);
         
         switch(choice) {
-           switch(choice) {
-           case 1:
+            case 1:
                 addEmployee(employees, &count);
                 break;
             case 2:
-                printf("\n--> Mark Attendance selected\n");
-                break; 
+                markAttendance(employees, count);
+                break;
             case 3:
                 calculateDeductions(employees, count);
                 break;
@@ -266,7 +305,7 @@ int main() {
                 generateReports(employees, count);
                 break;
             case 5:
-                printf("\n--> Display Employees selected\n");
+                displayAllEmployees(employees, count);
                 break;
             case 6:
                 saveToFile(employees, count);
@@ -274,6 +313,7 @@ int main() {
             case 7:
                 loadFromFile(employees, &count);
                 break;
+            case 8:
                 printf("\n--> Exiting program. Goodbye!\n");
                 break;
             default:
