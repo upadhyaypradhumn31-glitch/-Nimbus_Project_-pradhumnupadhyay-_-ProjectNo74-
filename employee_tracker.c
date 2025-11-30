@@ -263,7 +263,7 @@ int main() {
                 calculateDeductions(employees, count);
                 break;
             case 4:
-                printf("\n--> Generate Reports selected\n");
+                generateReports(employees, count);
                 break;
             case 5:
                 printf("\n--> Display Employees selected\n");
