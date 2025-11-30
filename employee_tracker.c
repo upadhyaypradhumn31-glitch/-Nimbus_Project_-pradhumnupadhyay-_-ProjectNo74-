@@ -41,7 +41,15 @@ int findEmployee(Employee *employees, int count, int emp_id) {
     }
     return -1;
 }
+// Function to validate employee ID
+int isValidEmployeeId(int emp_id) {
+    return (emp_id > 0 && emp_id < 10000);
+}
 
+// Function to validate salary
+int isValidSalary(float salary) {
+    return (salary >= 10000 && salary <= 1000000);
+}
 // Function to initialize employee
 void initializeEmployee(Employee *emp, int emp_id, char *name, float salary) {
     emp->emp_id = emp_id;
@@ -68,7 +76,10 @@ void addEmployee(Employee *employees, int *count) {
     
     printf("Enter Employee ID: ");
     scanf("%d", &emp_id);
-    
+    if (!isValidEmployeeId(emp_id)) {
+        printf("Error: Employee ID must be between 1-9999!\n");
+    return;
+}
     // Check if employee ID already exists
     if (findEmployee(employees, *count, emp_id) != -1) {
         printf("Error: Employee ID %d already exists!\n", emp_id);
@@ -80,8 +91,12 @@ void addEmployee(Employee *employees, int *count) {
     fgets(name, sizeof(name), stdin);
     name[strcspn(name, "\n")] = 0; // Remove newline
     
-    printf("Enter Monthly Salary: ");
-    scanf("%f", &salary);
+   printf("Enter Monthly Salary: ");
+   scanf("%f", &salary);
+     if (!isValidSalary(salary)) {
+     printf("Error: Salary must be between ₹10,000 - ₹10,00,000!\n");
+   return;
+}
     
     initializeEmployee(newEmp, emp_id, name, salary);
     (*count)++;
