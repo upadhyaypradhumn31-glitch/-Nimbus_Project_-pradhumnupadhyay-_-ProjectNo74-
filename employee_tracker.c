@@ -176,6 +176,64 @@ void loadFromFile(Employee *employees, int *count) {
     fclose(file);
     printf("Data loaded successfully from employee_data.txt (%d employees)\n", *count);
 }
+// Function to generate reports
+void generateReports(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found! Please add employees first.\n");
+        return;
+    }
+    
+    printf("\n===============================================\n");
+    printf("           EMPLOYEE REPORTS\n");
+    printf("===============================================\n");
+    printf("1. Attendance Summary\n");
+    printf("2. Salary Report\n");
+    printf("3. High Leave Takers\n");
+    printf("Enter your choice: ");
+    
+    int reportChoice;
+    scanf("%d", &reportChoice);
+    
+    switch(reportChoice) {
+        case 1:
+            printf("\n--- ATTENDANCE SUMMARY ---\n");
+            for (int i = 0; i < count; i++) {
+                float attendance = (employees[i].days_present * 100.0) / WORKING_DAYS;
+                printf("%s: %d/%d days (%.1f%%)\n", 
+                       employees[i].name, 
+                       employees[i].days_present, 
+                       WORKING_DAYS, 
+                       attendance);
+            }
+            break;
+            
+        case 2:
+            printf("\n--- SALARY REPORT ---\n");
+            for (int i = 0; i < count; i++) {
+                float deduction = employees[i].leaves_taken * 2000.0;
+                printf("%s: Basic ₹%.2f - Deduction ₹%.2f = Net ₹%.2f\n",
+                       employees[i].name,
+                       employees[i].salary,
+                       deduction,
+                       employees[i].salary - deduction);
+            }
+            break;
+            
+        case 3:
+            printf("\n--- HIGH LEAVE TAKERS ---\n");
+            for (int i = 0; i < count; i++) {
+                if (employees[i].leaves_taken > 5) {
+                    printf("%s: %d leaves taken\n", 
+                           employees[i].name, 
+                           employees[i].leaves_taken);
+                }
+            }
+            break;
+            
+        default:
+            printf("Invalid report choice!\n");
+    }
+}
 // Main function
 int main() {
     Employee employees[MAX_EMPLOYEES];
