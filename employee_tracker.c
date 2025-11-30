@@ -29,6 +29,7 @@ void displayMenu() {
     printf("\n6. Save Data to File");
     printf("\n7. Load Data from File");
     printf("\n8. Exit");
+    printf("\n9. Search Employee");
     printf("\n--------------------------------------------------");
 }
 
@@ -288,6 +289,32 @@ void generateReports(Employee *employees, int count) {
             printf("Invalid report choice!\n");
     }
 }
+// Function to search employee by name
+void searchEmployee(Employee *employees, int count) {
+    if (count == 0) {
+        printf("No employees found!\n");
+        return;
+    }
+    
+    char searchName[50];
+    printf("Enter employee name to search: ");
+    getchar();
+    fgets(searchName, sizeof(searchName), stdin);
+    searchName[strcspn(searchName, "\n")] = 0;
+    
+    printf("\nSearch Results:\n");
+    int found = 0;
+    for (int i = 0; i < count; i++) {
+        if (strstr(employees[i].name, searchName) != NULL) {
+            printf("ID: %d, Name: %s, Salary: ₹%.2f\n", 
+                   employees[i].emp_id, employees[i].name, employees[i].salary);
+            found = 1;
+        }
+    }
+    if (!found) {
+        printf("No employees found with name: %s\n", searchName);
+    }
+}
 
 // Main function
 int main() {
@@ -331,6 +358,9 @@ int main() {
             case 8:
                 printf("\n--> Exiting program. Goodbye!\n");
                 break;
+            case 9:
+                searchEmployee(employees, count);
+                break; 
             default:
                 printf("\n--> Invalid choice! Please try again.\n");
         }
