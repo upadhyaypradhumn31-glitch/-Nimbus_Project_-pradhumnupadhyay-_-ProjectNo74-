@@ -185,6 +185,8 @@ int main() {
     printf("===============================================\n");
     printf("   EMPLOYEE LEAVE AND ATTENDANCE TRACKER\n");
     printf("===============================================\n");
+
+    loadFromFile(employees, &count);
     
     do {
         displayMenu();
@@ -212,9 +214,8 @@ int main() {
                 saveToFile(employees, count);
                 break;
             case 7:
-                printf("\n--> Load Data selected\n");
+                loadFromFile(employees, &count);
                 break;
-            case 8:
                 printf("\n--> Exiting program. Goodbye!\n");
                 break;
             default:
