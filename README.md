@@ -70,3 +70,7 @@ To develop a comprehensive C program that automates employee attendance tracking
 ### Compilation
 ```bash
 gcc employee_tracker.c -o employee_tracker
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fe0faba9-1b42-4284-b5a8-678a25b45e78" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/854ac130-c2ab-424b-a57a-f0b3d0f3a0e5" />
+
+
